@@ -1,0 +1,9 @@
+Data
+DownloadedData
+logs
+models_for_prediction
+models_for_prediction_old
+*.tar.gz
+.idea
+.DS_Store
+*.pyc
