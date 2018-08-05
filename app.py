@@ -1,9 +1,11 @@
 from flask import Flask, jsonify, abort, make_response, request
 from genres_predictor import GenrePredictor
 import json
+import loggingmodule
+import argparse
 
 app = Flask(__name__)
-
+params = {}
 tasks = [
     {
         'id': 1,
@@ -19,7 +21,7 @@ tasks = [
     }
 ]
 
-genres_predictor = GenrePredictor('models_for_prediction/1st_level/', '9353', 4)
+#genres_predictor = GenrePredictor('models_for_prediction/1st_level/', '9353', 4)
 #style_predictor = GenrePredictor('models_for_prediction/2nd_level/blues/', '8231', 13)
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
@@ -30,6 +32,7 @@ def get_tasks():
 @app.route('/gramusik/v1/predict/<string:youtube_id>', methods=['GET'])
 def find_genres(youtube_id):
     args = request.args
+    genres_predictor = GenrePredictor(params['path'], params['name'], params['genrescount'])
     is_force_download = args['refresh']
     if is_force_download == 'True' or is_force_download == 'true':
         genres_predictor.deleteProcessedMarker(youtube_id)
@@ -74,4 +77,22 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8978)
+    logger_predict = loggingmodule.initialize_logger('predictor','genre_predictor.log')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path", help="path to the data model")
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", help="port number of the application")
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--name", help="name of the predictor")
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--genrescount", help="number of genres")
+
+    args = parser.parse_args()
+    params['path'] = args.path
+    params['port'] = int(args.port)
+    params['name'] = args.name
+    params['genrescount'] = int(args.genrescount)
+    app.run(host='0.0.0.0', port=params['port'])
