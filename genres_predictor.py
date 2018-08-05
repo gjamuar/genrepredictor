@@ -62,6 +62,11 @@ class GenrePredictor(object):
 
     @staticmethod
     def download_youtube(youtubeId):
+
+        if os.path.exists(DataPath + youtubeId + '/' + youtubeId + '.processed'):
+            print(youtubeId + "already downloaded and processed, skipping downloading")
+            return
+
         try:
             # args = ['youtube-dl', '--extract-audio', '--quite', '--audio-format', 'wav', '-o', outputPattern, '-i',
             #         common_url + youtubeId, '&&', 'sox', youtubeId + '.wav', '-r', '24000', '-n', 'remix', '1', 'trim',
@@ -128,6 +133,12 @@ class GenrePredictor(object):
         #     print(predicted_label)
         #     print("====================================")
         # return
+
+    @staticmethod
+    def deleteWavAndMarkProcessed(youtubeId):
+        if os.path.exists(DataPath + youtubeId + '/' + youtubeId + '.wav'):
+            os.remove(DataPath + youtubeId + '/' + youtubeId + '.wav')
+            open(DataPath + youtubeId + '/' + youtubeId + '.processed', 'w').close()
 
     @staticmethod
     def readGenresFile(path):

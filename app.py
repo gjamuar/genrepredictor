@@ -31,6 +31,7 @@ def get_tasks():
 def find_genres(youtube_id):
     genres_predictor.download_youtube(youtube_id)
     predicted_list, prediction_nolable, genreslabel, combinedprediction, combinedprediction_withlable, inc_prediction = genres_predictor.predict(youtube_id)
+    genres_predictor.deleteWavAndMarkProcessed(youtube_id)
     # convert to json data
     # predictionstr = json.dumps(prediction)
     # return jsonify({'youtube_id': youtube_id, 'predictedlist': predictedlist})
