@@ -29,6 +29,10 @@ def get_tasks():
 
 @app.route('/gramusik/v1/predict/<string:youtube_id>', methods=['GET'])
 def find_genres(youtube_id):
+    args = request.args
+    is_force_download = args['refresh']
+    if is_force_download == 'True' or is_force_download == 'true':
+        genres_predictor.deleteProcessedMarker(youtube_id)
     genres_predictor.download_youtube(youtube_id)
     predicted_list, prediction_nolable, genreslabel, combinedprediction, combinedprediction_withlable, inc_prediction = genres_predictor.predict(youtube_id)
     genres_predictor.deleteWavAndMarkProcessed(youtube_id)

@@ -5,7 +5,7 @@ import os.path
 from model import createModel
 from imageFilesTools import createDatasetFromSlicesPredict
 import numpy
-
+from shutil import rmtree
 
 # import codecs
 # from solr import SolrConnection
@@ -146,6 +146,10 @@ class GenrePredictor(object):
             genreslist = f.read().strip().splitlines()
             return genreslist
 
+    @staticmethod
+    def deleteProcessedMarker(youtube_id):
+        if os.path.exists(DataPath + youtube_id + '/' + youtube_id + '.processed'):
+            rmtree(DataPath + youtube_id)
 
 if __name__ == '__main__':
     genre_predictor = GenrePredictor('models_for_prediction/1st_level/', '9353', 4)
