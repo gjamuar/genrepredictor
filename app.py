@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, abort, make_response, request
 from genres_predictor import GenrePredictor
 import json
+#import db_utility
+
 
 app = Flask(__name__)
 
@@ -29,8 +31,9 @@ def get_tasks():
 
 @app.route('/gramusik/v1/predict/<string:youtube_id>', methods=['GET'])
 def find_genres(youtube_id):
-    args = request.args
-    is_force_download = args['refresh']
+    is_force_download = False
+    if 'refresh' in request.args:
+        is_force_download = request.args['refresh']
     if is_force_download == 'True' or is_force_download == 'true':
         genres_predictor.deleteProcessedMarker(youtube_id)
     genres_predictor.download_youtube(youtube_id)
@@ -40,10 +43,23 @@ def find_genres(youtube_id):
     # predictionstr = json.dumps(prediction)
     # return jsonify({'youtube_id': youtube_id, 'predictedlist': predictedlist})
     #return json.dumps(predictedlist)
-    return jsonify({
+    jsonresp = json.dumps({
         'youtube_id': youtube_id, 'prediction': predicted_list, 'prediction_nolable': prediction_nolable,
-        'label': genreslabel,'combinedprediction': combinedprediction,
-        'combinedprediction_withlable':combinedprediction_withlable, 'incremental_prediction': inc_prediction})
+        'label': genreslabel, 'combinedprediction': combinedprediction,
+        'combinedprediction_withlable': combinedprediction_withlable, 'incremental_prediction': inc_prediction})
+    # print("Response is:")
+    # print(jsonresp)
+    # db_utility.execute(
+    #     "INSERT IGNORE INTO genrepredictor.Level1Prediction (`YoutubeId`, `GenreCode`, `Prediction`)"
+    #     " VALUES (%s, %s, %s )",
+    #     (youtube_id, ':'.join(genreslabel), jsonresp))
+    respobj = json.loads(jsonresp)
+    return jsonify(respobj)
+    # resp = jsonify({
+    #     'youtube_id': youtube_id, 'prediction': predicted_list, 'prediction_nolable': prediction_nolable,
+    #     'label': genreslabel,'combinedprediction': combinedprediction,
+    #     'combinedprediction_withlable':combinedprediction_withlable, 'incremental_prediction': inc_prediction})
+
 
 
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
