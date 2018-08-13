@@ -32,7 +32,6 @@ def get_tasks():
 
 @app.route('/gramusik/v1/predict/<string:youtube_id>', methods=['GET'])
 def find_genres(youtube_id):
-    genres_predictor = GenrePredictor(params['path'], params['name'], params['genrescount'])
     is_force_download = False
     if 'refresh' in request.args:
         is_force_download = request.args['refresh']
@@ -93,21 +92,24 @@ def not_found(error):
 
 if __name__ == '__main__':
     logger_predict = loggingmodule.initialize_logger('predictor','genre_predictor.log')
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--path", help="path to the data model")
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('-path',"--path", help="path to the data model")
+    #
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('-port',"--port", help="port number of the application")
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--port", help="port number of the application")
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--name", help="name of the predictor")
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("--name", help="name of the predictor")
     
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--genrescount", help="number of genres")
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("--genrescount", help="number of genres")
 
-    args = parser.parse_args()
-    params['path'] = args.path
-    params['port'] = int(args.port)
-    params['name'] = args.name
-    params['genrescount'] = int(args.genrescount)
-    app.run(host='0.0.0.0', port=params['port'])
+    # args = parser.parse_args()
+    # params['path'] = args.path
+    # params['port'] = int(args.port)
+    #params['name'] = args.name
+    #params['genrescount'] = int(args.genrescount)
+    #genres_predictor = GenrePredictor(params['path'], params['name'], params['genrescount'])
+    genres_predictor = GenrePredictor('models_for_prediction/1st_level/', '9353', 4)
+
+    app.run(host='0.0.0.0', port=8978)
