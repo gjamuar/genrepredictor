@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, abort, make_response, request
 from genres_predictor import GenrePredictor
 import json
-#import db_utility
+import db_utility
 import loggingmodule
 import argparse
 
@@ -37,6 +37,11 @@ def find_genres(youtube_id):
         is_force_download = request.args['refresh']
     if is_force_download == 'True' or is_force_download == 'true':
         genres_predictor.deleteProcessedMarker(youtube_id)
+    else:
+        resultrows = db_utility.fetch("Select * from genrepredictor.Level1Prediction where YoutubeId = %s", (youtube_id,))
+        if len(resultrows) > 0:
+            return jsonify(json.loads(resultrows[0][2]))
+
     genres_predictor.download_youtube(youtube_id)
     predicted_list, prediction_nolable, genreslabel, combinedprediction, combinedprediction_withlable, inc_prediction = genres_predictor.predict(youtube_id)
     genres_predictor.deleteWavAndMarkProcessed(youtube_id)
@@ -50,10 +55,10 @@ def find_genres(youtube_id):
         'combinedprediction_withlable': combinedprediction_withlable, 'incremental_prediction': inc_prediction})
     # print("Response is:")
     # print(jsonresp)
-    # db_utility.execute(
-    #     "INSERT IGNORE INTO genrepredictor.Level1Prediction (`YoutubeId`, `GenreCode`, `Prediction`)"
-    #     " VALUES (%s, %s, %s )",
-    #     (youtube_id, ':'.join(genreslabel), jsonresp))
+    db_utility.execute(
+        "INSERT INTO genrepredictor.Level1Prediction (`YoutubeId`, `GenreCode`, `Prediction`)"
+        " VALUES (%s, %s, %s ) ON DUPLICATE KEY UPDATE `Prediction` = VALUES(`Prediction`), `DateProcessed` = NOW()",
+        (youtube_id, ':'.join(genreslabel), jsonresp))
     respobj = json.loads(jsonresp)
     return jsonify(respobj)
     # resp = jsonify({
