@@ -3,7 +3,7 @@ from mysql.connector import MySQLConnection, Error
 import logging
 
 logging.basicConfig(
-    filename="queries.sql",
+    filename="dblogs.log",
     filemode='w',
     level=logging.DEBUG,
     format="%(asctime)s:%(levelname)s:%(message)s"
@@ -186,12 +186,12 @@ def execute(query, args):
 
         # accept the change
         conn.commit()
-        logging.debug(query % args)
+        # logging.debug(query % args)
         # print(query % args)
     except Error as error:
         # log query here
         logging.error(error)
-        logging.error(query % args)
+        # logging.error(query % args)
 
     finally:
         cursor.close()
@@ -209,12 +209,12 @@ def fetch(query, args):
         cursor = conn.cursor()
         cursor.execute(query, args)
         rows = cursor.fetchall()
-        logging.debug(query % args)
+        # logging.debug(query % args)
         return rows
 
     except Error as error:
         logging.error(error)
-        logging.error(query % args)
+        # logging.error(query % args)
 
     finally:
         cursor.close()
