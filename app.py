@@ -60,7 +60,7 @@ def find_genres(youtube_id):
     if is_force_download == 'True' or is_force_download == 'true':
         genres_predictor.deleteProcessedMarker(youtube_id)
     else:
-        resultrows = db_utility.fetch("Select * from genrepredictor.Level1Prediction where YoutubeId = %s", (youtube_id,))
+        resultrows = db_utility.fetch("Select * from genrepredictor.Level1Prediction where YoutubeId = %s and GenreCode = %s", (youtube_id, ':'.join(genres_predictor.level1genres)))
         if len(resultrows) > 0:
             return jsonify(json.loads(resultrows[0][2]))
 
