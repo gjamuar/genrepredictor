@@ -217,8 +217,10 @@ def fetch(query, args):
         # logging.error(query % args)
 
     finally:
-        cursor.close()
-        conn.close()
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 if __name__ == '__main__':

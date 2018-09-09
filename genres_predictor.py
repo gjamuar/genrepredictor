@@ -6,6 +6,7 @@ from model import createModel
 from imageFilesTools import createDatasetFromSlicesPredict
 import numpy
 from shutil import rmtree
+import tensorflow as tf
 
 # import codecs
 # from solr import SolrConnection
@@ -49,13 +50,19 @@ def inc_avg(li):
 class GenrePredictor(object):
 
     def __init__(self, path, model_name, num_of_genres):
-        self.model = createModel(num_of_genres, sliceSize)
-        #self.bluemodel = createModel(13, sliceSize)
-        print("[+] Loading weights...")
-#         self.model.load('models_for_prediction/1st_level/musicDNN.tflearn')
-        self.model.load(path + model_name, weights_only=True)
-        self.level1genres = GenrePredictor.readGenresFile(path)
-        #self.bluemodel.load('models_for_prediction/2nd_level/blues/8231',weights_only=True)
+        self.G1 = tf.Graph()
+        self.G2 = tf.Graph()
+        with self.G1.as_default():
+            self.model = createModel(num_of_genres, sliceSize)
+            print("[+] Loading weights in first graph...")
+            self.model.load(path + model_name, weights_only=True)
+            self.level1genres = GenrePredictor.readGenresFile(path)
+
+        with self.G2.as_default():
+            self.bluemodel = createModel(13, sliceSize)
+
+#           self.model.load('models_for_prediction/1st_level/musicDNN.tflearn')
+#             self.bluemodel.load('models_for_prediction/2nd_level/blues/8231',weights_only=True)
         #self.level2genres = GenrePredictor.readGenresFile('models_for_prediction/2nd_level/blues/')
         print(self.level1genres)
         print("    Weights loaded!")
@@ -100,6 +107,7 @@ class GenrePredictor(object):
         # print("[+] Loading weights...")
         # model.load('models_for_prediction/TOP/musicDNN.tflearn')
         # print("    Weights loaded!")
+        # with self.G2.as_default():
         predicted_label1 = self.model.predict_label(test_X)
         prediction = self.model.predict(test_X)
         #print(prediction)
