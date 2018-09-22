@@ -5,7 +5,8 @@ import db_utility
 import loggingmodule
 import argparse
 import os
-import glob
+
+skipdb=True
 
 app = Flask(__name__)
 params = {}
@@ -55,8 +56,13 @@ def get_predictorname():
 def find_genres(youtube_id):
     global genres_predictor
     is_force_download = False
+
     if 'refresh' in request.args:
         is_force_download = request.args['refresh']
+
+    if skipdb:
+        is_force_download = 'True'
+
     if is_force_download == 'True' or is_force_download == 'true':
         genres_predictor.deleteProcessedMarker(youtube_id)
     else:
@@ -77,10 +83,11 @@ def find_genres(youtube_id):
         'combinedprediction_withlable': combinedprediction_withlable, 'incremental_prediction': inc_prediction})
     # print("Response is:")
     # print(jsonresp)
-    db_utility.execute(
-        "INSERT INTO genrepredictor.Level1Prediction (`YoutubeId`, `GenreCode`, `Prediction`)"
-        " VALUES (%s, %s, %s ) ON DUPLICATE KEY UPDATE `Prediction` = VALUES(`Prediction`), `DateProcessed` = NOW()",
-        (youtube_id, ':'.join(genreslabel), jsonresp))
+    if not skipdb:
+        db_utility.execute(
+            "INSERT INTO genrepredictor.Level1Prediction (`YoutubeId`, `GenreCode`, `Prediction`)"
+            " VALUES (%s, %s, %s ) ON DUPLICATE KEY UPDATE `Prediction` = VALUES(`Prediction`), `DateProcessed` = NOW()",
+            (youtube_id, ':'.join(genreslabel), jsonresp))
     respobj = json.loads(jsonresp)
     return jsonify(respobj)
     # resp = jsonify({

@@ -19,7 +19,7 @@ from wav_specto_slice_for_ExistingFiles import createSlicesForSong
 currentPath = os.path.dirname(os.path.realpath(__file__))
 DataPath = 'DownloadedData/'
 # Spectrogram resolution
-pixelPerSecond = 50
+pixelPerSecond = 64
 sliceSize = 128
 # Tweakable parameters
 desiredSize = 128
