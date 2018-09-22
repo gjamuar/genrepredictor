@@ -7,7 +7,7 @@ from imageFilesTools import createDatasetFromSlicesPredict
 import numpy
 from shutil import rmtree
 import tensorflow as tf
-from wav_specto_slice_for_ExistingFiles import createSlicesForSong
+from wav_specto_slice_for_ExistingFiles import createSlicesForSong, pixelPerSecond, sliceSize, desiredSize
 
 
 # import codecs
@@ -19,10 +19,8 @@ from wav_specto_slice_for_ExistingFiles import createSlicesForSong
 currentPath = os.path.dirname(os.path.realpath(__file__))
 DataPath = 'DownloadedData/'
 # Spectrogram resolution
-pixelPerSecond = 64
-sliceSize = 128
 # Tweakable parameters
-desiredSize = 128
+# desiredSize = 128
 
 logger_download = loggingmodule.initialize_logger('downloadyoutube.log')
 
@@ -93,7 +91,7 @@ class GenrePredictor(object):
             #         DataPath + youtubeId + '/' + youtubeId + '.png']
             if not os.path.exists(DataPath + youtubeId + '/' + youtubeId + '.png'):
                 args = ['sox', DataPath + youtubeId + '/' + youtubeId + '.wav', '-r', '24000', '-n', 'remix', '1',
-                        'spectrogram', '-Y', '200', '-X', '64', '-m', '-r', '-o',
+                        'spectrogram', '-Y', '200', '-X', str(pixelPerSecond), '-m', '-r', '-o',
                         DataPath + youtubeId + '/' + youtubeId + '.png']
                 subprocess.call(args)
                 createSlicesForSong(DataPath, youtubeId)
