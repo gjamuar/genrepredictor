@@ -7,6 +7,8 @@ from imageFilesTools import createDatasetFromSlicesPredict
 import numpy
 from shutil import rmtree
 import tensorflow as tf
+from wav_specto_slice_for_ExistingFiles import createSlicesForSong
+
 
 # import codecs
 # from solr import SolrConnection
@@ -94,9 +96,10 @@ class GenrePredictor(object):
                         'spectrogram', '-Y', '200', '-X', '64', '-m', '-r', '-o',
                         DataPath + youtubeId + '/' + youtubeId + '.png']
                 subprocess.call(args)
-                args = ['convert', '-crop', '128x129', DataPath + youtubeId + '/' + youtubeId + '.png',
-                        DataPath + youtubeId + '/' + youtubeId + '#%d#part.png']
-                subprocess.call(args)
+                createSlicesForSong(youtubeId)
+                # args = ['convert', '-crop', '128x129', DataPath + youtubeId + '/' + youtubeId + '.png',
+                #         DataPath + youtubeId + '/' + youtubeId + '#%d#part.png']
+                # subprocess.call(args)
         except Exception as ex:
             logger_download.exception(ex)
 

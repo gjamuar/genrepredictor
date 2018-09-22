@@ -1,7 +1,7 @@
 from subprocess import Popen, PIPE, STDOUT
 import os
-import sox
-import shutil
+# import sox
+# import shutil
 from PIL import Image
 
 #Define
@@ -91,6 +91,29 @@ def createSlices(filename, dirname,output_train, output_test):
            
     except Exception as ex:
         print ex
+
+
+# ---------------------------------------------------------------------
+def createSlicesForSong(youtubeId):
+    # -- Create Slices for Training ---
+    try:
+        genre = youtubeId
+        slicepath_train = 'DownloadedData/' + genre + '/'
+        img = Image.open(slicepath_train + youtubeId + '.png')
+        width, height = img.size
+        nbSamples = int(width / desiredSize)
+        width - desiredSize
+
+        print "Creating slice for Training: for", youtubeId + '.png'
+        for i in range(nbSamples):
+            # print "Creating slice for Training: ", (i+1), "/", nbSamples, "for", output_train+'.png'
+            startPixel = i * 128
+            imgTmp = img.crop((startPixel, 1, startPixel + desiredSize, desiredSize + 1))
+            imgTmp.save(slicepath_train + "{}#{}#part.png".format(youtubeId + '.png'[:-4], i))
+
+    except Exception as ex:
+        print ex
+
 
 #---------------------------------------------------------
 #Convert songs to Mono, Trimmed and spectograms.
