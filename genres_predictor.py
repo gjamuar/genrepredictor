@@ -96,7 +96,7 @@ class GenrePredictor(object):
                         'spectrogram', '-Y', '200', '-X', '64', '-m', '-r', '-o',
                         DataPath + youtubeId + '/' + youtubeId + '.png']
                 subprocess.call(args)
-                createSlicesForSong(youtubeId)
+                createSlicesForSong(DataPath, youtubeId)
                 # args = ['convert', '-crop', '128x129', DataPath + youtubeId + '/' + youtubeId + '.png',
                 #         DataPath + youtubeId + '/' + youtubeId + '#%d#part.png']
                 # subprocess.call(args)

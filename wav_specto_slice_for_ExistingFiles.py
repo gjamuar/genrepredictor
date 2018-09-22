@@ -94,11 +94,11 @@ def createSlices(filename, dirname,output_train, output_test):
 
 
 # ---------------------------------------------------------------------
-def createSlicesForSong(youtubeId):
+def createSlicesForSong(datapath, youtubeId):
     # -- Create Slices for Training ---
     try:
         genre = youtubeId
-        slicepath_train = 'DownloadedData/' + genre + '/'
+        slicepath_train = datapath + genre + '/'
         img = Image.open(slicepath_train + youtubeId + '.png')
         width, height = img.size
         nbSamples = int(width / desiredSize)
