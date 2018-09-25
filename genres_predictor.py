@@ -83,7 +83,7 @@ class GenrePredictor(object):
             if not os.path.exists(DataPath + youtubeId + '/' + youtubeId + '.wav'):
                 common_url = 'https://www.youtube.com/watch?v='
                 outputpattern = DataPath + youtubeId + '/' + '%(id)s.%(ext)s'
-                args = ['youtube-dl', '--extract-audio', '--quiet', '--audio-format', 'wav', '-o', outputpattern, '-i',
+                args = ['./youtube-dl', '--extract-audio', '--quiet', '--audio-format', 'wav', '-o', outputpattern, '-i',
                         common_url + youtubeId]
                 subprocess.call(args)
             # args = ['sox', DataPath + youtubeId + '/' + youtubeId + '.wav', '-r', '24000', '-n', 'remix', '1', 'trim', '25',
