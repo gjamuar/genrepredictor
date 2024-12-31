@@ -1,6 +1,8 @@
 import sys
 import loggingmodule
 import subprocess
+import os
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
 import os.path
 from model import createModel
 from imageFilesTools import createDatasetFromSlicesPredict
@@ -82,9 +84,13 @@ class GenrePredictor(object):
             #         ]
             if not os.path.exists(DataPath + youtubeId + '/' + youtubeId + '.wav'):
                 common_url = 'https://www.youtube.com/watch?v='
+                # os.mkdir(
+                #     DataPath + youtubeId
+                # )
                 outputpattern = DataPath + youtubeId + '/' + '%(id)s.%(ext)s'
-                args = ['./youtube-dl', '--extract-audio', '--quiet', '--audio-format', 'wav', '-o', outputpattern, '-i',
-                        common_url + youtubeId]
+                args = ['youtube-dl', '--extract-audio', '--quiet', '--audio-format', 'wav', '-o', outputpattern, '-i',
+                        common_url + youtubeId, '--ffmpeg-location',
+                        '/usr/bin/ffmpeg']
                 subprocess.call(args)
             # args = ['sox', DataPath + youtubeId + '/' + youtubeId + '.wav', '-r', '24000', '-n', 'remix', '1', 'trim', '25',
             #         '00:00:60.00', 'spectrogram', '-Y', '200', '-X', '64', '-m', '-r', '-o',
@@ -161,6 +167,6 @@ class GenrePredictor(object):
             rmtree(DataPath + youtube_id)
 
 if __name__ == '__main__':
-    genre_predictor = GenrePredictor('models_for_prediction/1st_level/', '9353', 4)
+    genre_predictor = GenrePredictor('/home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/classic_metal_16/', '9299', 2)
     GenrePredictor.download_youtube('WxTofWwtmNE')
     genre_predictor.predict('WxTofWwtmNE')

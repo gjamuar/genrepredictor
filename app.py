@@ -2,9 +2,11 @@ from flask import Flask, jsonify, abort, make_response, request
 from genres_predictor import GenrePredictor
 import json
 import db_utility
-import loggingmodule
+import logging
+# import loggingmodule
 import argparse
 import os
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
 
 skipdb=True
 
@@ -31,13 +33,13 @@ tasks = [
 def get_tasks():
     return jsonify({'tasks': tasks})
 def get_genresCount():
-    filename = os.path.join(params['path'],'genres.txt')
+    filename = os.path.join(params['path'], 'genres.txt')
     if(os.path.exists(filename)):
-        fo = open(filename, "rw+")
+        fo = open(filename, "r")
         genreCount = len(fo.readlines())
     else:
         genreCount = -1
-    print 'Returning :'+str(genreCount)
+    print ('Returning :'+str(genreCount))
     return genreCount
 
 def get_predictorname():
@@ -47,8 +49,8 @@ def get_predictorname():
     if(len(list_meta_files) > 0):
         predict_name = os.path.splitext(os.path.basename(list_meta_files[0]))[0]
     else:
-        print 'cant find meta file'
-    print predict_name
+        print ('cant find meta file')
+    print (predict_name)
     return predict_name
     
 
@@ -126,7 +128,7 @@ def not_found(error):
 
 if __name__ == '__main__':
     global genres_predictor
-    logger_predict = loggingmodule.initialize_logger('predictor','genre_predictor.log')
+    # logger_predict = loggingmodule.initialize_logger('predictor','genre_predictor.log')
     parser = argparse.ArgumentParser()
     parser.add_argument('-path',"--path", help="path to the data model")
 
@@ -144,7 +146,7 @@ if __name__ == '__main__':
         params['path'] = args.path
     else:
         params['path'] = 'models_for_prediction/1st_level/'
-    if('port' in args and args.port != ''):
+    if('port' in args and args.port and args.port != ''):
         params['port'] = int(args.port)
     else:
         params['port'] = 8970
@@ -154,7 +156,7 @@ if __name__ == '__main__':
 
     genreCount = get_genresCount()
     if(genreCount == -1):
-        print 'genres.txt not found'
+        print ('genres.txt not found')
     predict_name = get_predictorname();
     genres_predictor = GenrePredictor(params['path'], predict_name, genreCount)
 

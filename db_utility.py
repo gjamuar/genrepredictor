@@ -1,4 +1,6 @@
 import ConfigParser
+# from configparser import ConfigParser
+
 from mysql.connector import MySQLConnection, Error
 import logging
 
@@ -18,7 +20,7 @@ def read_db_config(filename='config.ini', section='mysql'):
     :return: a dictionary of database parameters
     """
     # create parser and read ini configuration file
-    parser = ConfigParser.ConfigParser()
+    parser = ConfigParser()
     parser.read(filename)
 
     # get section, default to mysql

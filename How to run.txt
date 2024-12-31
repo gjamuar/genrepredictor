@@ -1,0 +1,38 @@
+gerasoul@aurora genrepredictor]$ jobs -l
+
+[1] + 47480 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_blues2wav_8960_9800/ -port 8000
+
+[2] 74003 Running python app.py -path dx /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_wav_ALL_with_blues500k_8788_9718/ -port 8968
+
+[3] - 67915 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical1020_country10_20_8763/ -port 8961
+
+[4] 17778 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical1020_country10_20_8763/ -port 8960
+
+[5] 70179 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/classic_metal_16/ -port 9002
+
+[6] 70832 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_reggae2wav_9256_9832/ -port 9001
+
+[7] 71898 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical1020_country20_60_8786/ -port 8962
+
+[8] 72929 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_blues2_9401/ -port 8100
+
+[9] 73457 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_classical2wav_8393_9524/ -port 8001
+
+[10] 76506 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_jazz2wav_8640_9693/ -port 8007
+
+[11] 77068 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_rock769_electronic633_No_Copy_8711/ -port 8969
+
+[12] 78950 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_pop2wav_8351_9758/ -port 9000
+
+[13] 80339 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical2020_country20_60_8856_9703/ -port 8963
+
+[14] 81516 Running python gateway.py -port 9900 (wd: /aurora.cs/ssd/apo/PredictGateway1/predictorgateway)
+
+[15] 2062 Running python app.py -path /aurora.cs/ssd/apo/trained_data/4seconds/hickle_data_16_wav_blues2wav_8850_9678/ -port 8200
+
+
+
+
+INSTALL following:
+youtube-dl
+ffmeg

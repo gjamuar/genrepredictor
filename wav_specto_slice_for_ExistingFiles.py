@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE, STDOUT
 import os
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
 # import sox
 # import shutil
 from PIL import Image
@@ -8,7 +9,7 @@ from PIL import Image
 currentPath = os.path.dirname(os.path.realpath(__file__))
 DataPath = 'Data/'
 #Spectrogram resolution
-pixelPerSecond = 64
+pixelPerSecond = 32
 sliceSize = 128
 #Tweakable parameters
 desiredSize = 128
@@ -17,35 +18,35 @@ desiredSize = 128
 #Create empty Directory
 def createDirectory(dirname):
     if(not os.path.exists(dirname)):
-            os.mkdir(dirname,0755)
+            os.mkdir(dirname, mode=0o755)
 #-----------------------------------------------
 #---------------------------------------------------------------------
 def createSpctogram(filepath, output_train, output_test, wav_train, wav_test):
     try:
         # #songs files to mono, trim, 24Hz for Training
-        print 'wav for training: '+ filepath
+        print ('wav for training: '+ filepath)
         command = "sox '{}' -r 24000 '{}' remix 1 trim 25 00:00:60.00".format(filepath, wav_train)
         p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
         output, errors = p.communicate()
         if errors:
-           print errors
+           print (errors)
 
         #songs files to mono, trim, 24Hz for Testing
-        print 'wav for testing: '+ filepath
+        print ('wav for testing: '+ filepath)
         command = "sox '{}' -r 24000 '{}' remix 1 trim 85 00:00:60.00".format(filepath, wav_test)
         p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
         output, errors = p.communicate()
         if errors:
-           print errors
+           print (errors)
 
-        print 'Spectogram for Training and Testing for: '+ filepath
+        print ('Spectogram for Training and Testing for: '+ filepath)
         #Songs to mono, trim and spctograms for Training
         command = "sox '{}' -r 24000 -n remix 1 trim 25 00:00:60.00 spectrogram -Y 200 -X {} -m -r -o '{}.png'".format(filepath,pixelPerSecond,output_train)
         
         p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
         output, errors = p.communicate()
         if errors:
-           print errors
+           print (errors)
 
         #Songs to mono, trim and spctograms for Testing
         command = "sox '{}' -r 24000 -n remix 1 trim 85 00:00:60.00 spectrogram -Y 200 -X {} -m -r -o '{}.png'".format(filepath,pixelPerSecond,output_test)
@@ -53,9 +54,9 @@ def createSpctogram(filepath, output_train, output_test, wav_train, wav_test):
         p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True, cwd=currentPath)
         output, errors = p.communicate()
         if errors:
-           print errors
+           print (errors)
     except Exception as ex:
-        print ex
+        print (ex)
 
 #---------------------------------------------------------------------
 def createSlices(filename, dirname,output_train, output_test):
@@ -68,7 +69,7 @@ def createSlices(filename, dirname,output_train, output_test):
         nbSamples = int(width/desiredSize)
         width - desiredSize
 
-        print "Creating slice for Training: for", output_train+'.png'
+        print ("Creating slice for Training: for", output_train+'.png')
         for i in range(nbSamples):
             #print "Creating slice for Training: ", (i+1), "/", nbSamples, "for", output_train+'.png'
             startPixel = i * 128
@@ -82,7 +83,7 @@ def createSlices(filename, dirname,output_train, output_test):
         nbSamples = int(width/desiredSize)
         width - desiredSize
 
-        print "Creating slice for Test: for", output_test+'.png'
+        print ("Creating slice for Test: for", output_test+'.png')
         for i in range(nbSamples):
             #print "Creating slice for Testing: ", (i+1), "/", nbSamples, "for", output_test+'.png'
             startPixel = i * 128
@@ -90,7 +91,7 @@ def createSlices(filename, dirname,output_train, output_test):
             imgTmp.save(slicepath_test+"{}_{}.png".format(filename+'.png'[:-4],i))
            
     except Exception as ex:
-        print ex
+        print (ex)
 
 
 # ---------------------------------------------------------------------
@@ -104,7 +105,7 @@ def createSlicesForSong(datapath, youtubeId):
         nbSamples = int(width / desiredSize)
         width - desiredSize
 
-        print "Creating slice for Training: for", youtubeId + '.png'
+        print ("Creating slice for Training: for", youtubeId + '.png')
         for i in range(nbSamples):
             # print "Creating slice for Training: ", (i+1), "/", nbSamples, "for", output_train+'.png'
             startPixel = i * 128
@@ -112,7 +113,7 @@ def createSlicesForSong(datapath, youtubeId):
             imgTmp.save(slicepath_train + "{}#{}#part.png".format(youtubeId + '.png'[:-4], i))
 
     except Exception as ex:
-        print ex
+        print (ex)
 
 
 #---------------------------------------------------------

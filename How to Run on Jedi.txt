@@ -1,0 +1,29 @@
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_blues2wav_8960_9800/ -port 8000
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_wav_ALL_with_blues500k_8788_9718/ -port 8968
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical1020_country10_20_8763/ -port 8961
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical1020_country10_20_8763/ -port 8960
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/classic_metal_16/ -port 9002
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_reggae2wav_9256_9832/ -port 9001
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical1020_country20_60_8786/ -port 8962
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_blues2_9401/ -port 8100
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_classical2wav_8393_9524/ -port 8001
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_jazz2wav_8640_9693/ -port 8007
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_rock769_electronic633_No_Copy_8711/ -port 8969
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_pop2wav_8351_9758/ -port 9000
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_HIERARCHCAL_blues2060_pop1020_funk1020_reggae1020_classical2020_country20_60_8856_9703/ -port 8963
+
+python gateway.py -port 9900 (wd: /aurora.cs/ssd/apo/PredictGateway1/predictorgateway)
+
+python app.py -path /home/gjamuar/Gramusik_Projects/Rutgers_Prof_Backup-imp/4seconds/hickle_data_16_wav_blues2wav_8850_9678/ -port 8200

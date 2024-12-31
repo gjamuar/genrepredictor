@@ -2,7 +2,7 @@
 from PIL import Image
 import numpy as np
 import os
-
+os.environ['OPENBLAS_NUM_THREADS'] = '1'
 # Returns numpy image at size imageSize*imageSize
 def getProcessedData(img, imageSize):
     img = img.resize((imageSize, imageSize), resample=Image.ANTIALIAS)
